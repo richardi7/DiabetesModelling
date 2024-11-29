@@ -1,6 +1,5 @@
 library(naniar) # https://cran.r-project.org/web/packages/naniar/vignettes/naniar-visualisation.html
 library(tidyverse)
-library(plotly)
 
 
 data <- readRDS("data/nda_clean.rds")
