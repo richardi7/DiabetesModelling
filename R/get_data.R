@@ -21,7 +21,7 @@ sql_query <- "SELECT [PatientId]
       ,[DERIVED_LSOA]
       ,[DERIVED_CLEAN_DIABETES_TYPE]
       ,[DERIVED_CLEAN_BIRTH_YEAR]
-	    ,[CLEAN_DIAGNOSIS_DATE]
+      ,[CLEAN_DIAGNOSIS_DATE]
       ,[DERIVED_CLEAN_DIAGNOSIS_YEAR]
       ,[DIABETES_DURATION]
       ,[CLEAN_SMI_FLAG]
@@ -84,5 +84,4 @@ WHERE T1.AUDIT_YEAR = '202324E4'"
 data <- dbGetQuery(con, sql_query)
 
 # Save as RDS ------------------------------------------------------------------
-
 saveRDS(data, "data/nda_raw.rds")
