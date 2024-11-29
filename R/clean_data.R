@@ -5,7 +5,6 @@ library(janitor)
 raw <- readRDS("data/nda_raw.rds")
 
 # Clean data -------------------------------------------------------------------
-
 data <- raw %>%
   # Age category
   mutate(
@@ -184,7 +183,6 @@ clean_data %>%
   filter(n > 1)
 
 # Save clean data as RDS
-
 saveRDS(clean_data, "data/nda_clean.rds")
   
 
