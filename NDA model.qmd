@@ -1,0 +1,187 @@
+---
+title: "Diabetes modelling"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: Contents
+    toc-location: left
+    embed-resources: true
+    self-contained-math: true
+editor: visual
+echo: false
+warning: false
+error: false
+---
+
+```{r}
+library(ggiraph)
+library(PHEindicatormethods)
+library(FunnelPlotR)
+library(COUNT)
+library(kableExtra)
+library(devtools)
+library(patchwork)
+library(tidyverse)
+library(DBI)        
+library(PHEindicatormethods)
+library(odbc)
+library(scales)
+library(knitr)
+```
+
+```{r}
+source("fun_graphs.R")
+```
+
+```{r}
+# create connection with SQL server
+
+con <- dbConnect(odbc::odbc(), .connection_string = "Driver={SQL Server};server=MLCSU-BI-SQL;database=EAT_Reporting_BSOL", timeout = 10)
+
+```
+
+```{r}
+#fetching gp map data
+gp_mapquery <- paste0(
+  "SELECT [GPPracticeCode_Original]
+  ,[GPPracticeCode_current]
+  ,Locality
+  ,PCN
+FROM EAT_Reporting_BSOL.Reference.BSOL_ICS_PracticeMapped
+where ICS_2223 = 'BSOL'
+") 
+
+gp_map <- dbGetQuery(con, gp_mapquery)
+
+```
+
+
+```{r}
+
+#getting  the diabetes data, with updated GP codes
+
+nda_qry <- paste0("SELECT
+AUDIT_YEAR
+,AGE
+,DERIVED_CLEAN_SEX
+,DERIVED_CLEAN_BIRTH_YEAR
+,DERIVED_CLEAN_ETHNICITY
+,CLEAN_DIAGNOSIS_DATE
+,DERIVED_CLEAN_DIABETES_TYPE
+,IHD_DATE
+,CLEAN_YEAR_PUMP_STARTED
+,CLEAN_ED_OFFER_VALUE
+,CLEAN_ED_OFFER_DATE
+,CLEAN_ED_ATTEND_VALUE
+,CLEAN_ED_ATTEND_DATE
+,DIABETES_DURATION
+,LD
+,CLEAN_SMI_FLAG
+,IMD_QUINTILE
+,DERIVED_LSOA
+,DERIVED_GP_PRACTICE_CODE
+,GPPracticeCode_current
+,CLEAN_CREATININE_VALUE
+,CREATININE_DATE
+,CREATININE
+,CLEAN_SYSTOLIC_VALUE
+,CLEAN_DIASTOLIC_VALUE
+,BP_DATE
+,BLOOD_PRESSURE
+,CLEAN_BMI_VALUE
+,BMI_DATE
+,CLEAN_CHOLESTEROL_VALUE
+,CHOLESTEROL_DATE
+,CLEAN_FOOT_EXAM_DATE
+,FOOT_EXAM
+,CLEAN_MMOL_HBA1C_VALUE
+,CLEAN_PERCENTAGE_HBA1C_VALUE
+,HBA1C_DATE
+,HBA1C
+,CLEAN_SMOKING_VALUE
+,SMOKING_DATE
+,CLEAN_ALBUMIN_VALUE
+,CLEAN_ALBUMIN_TEST
+,CLEAN_ALBUMIN_STAGE
+,ALBUMIN_DATE
+,CLEAN_IHD_VALUE
+,ALL_3_TREATMENT_TARGETS
+,ALL_8_CARE_PROCESSES
+,CLEAN_PUMP_FLAG
+,CLEAN_PUMP_ACHIEVED_GLUCOSE
+,CLEAN_PUMP_ACHIEVED_HYPO
+,CLEAN_PUMP_REASON_GLUCOSE
+,CLEAN_PUMP_REASON_HYPO
+,CLEAN_PUMP_REASON_OTHER
+,CLEAN_PUMP_REASON_UNKNOWN
+,Clean_ED_Review_Value
+,Clean_ED_Review_Date
+,Clean_Eye_Exam_value
+,Clean_Eye_Exam_Date
+,EYE_EXAM_CP
+,Clean_Foot_Exam_Value
+,All_9_CARE_PROCESSES
+,CVD_admission
+,statin_flag
+,Frailty
+,Frailty_Date
+,LCD_INVITATION
+,LCD_INVITATION_Date
+,LCD_REFERRAL
+,LCD_REFERRAL_Date
+,LCD_DECLINED
+,LCD_DECLINED_Date
+,LCD_CONTRAINDICATED
+,LCD_CONTRAINDICATED_Date
+,LCD_COMMENCED
+,LCD_COMMENCED_Date
+,LCD_COMPLETED
+,LCD_COMPLETED_Date
+,remission
+,remission_date
+,OnCGMS
+,CGMS_observation_date
+,PatientId
+FROM [EAT_Reporting_BSOL].[Diabetes].[VwNationalDiabetesAuditCoreData] d
+left join (SELECT 
+  [GPPracticeCode_current], GPPracticeCode_Original
+FROM EAT_Reporting_BSOL.Reference.BSOL_ICS_PracticeMapped
+where ICS_2223 = 'BSOL'
+group by [GPPracticeCode_current], GPPracticeCode_Original) g
+on g.GPPracticeCode_Original COLLATE DATABASE_DEFAULT  = d.DERIVED_GP_PRACTICE_CODE COLLATE DATABASE_DEFAULT 
+where 
+AUDIT_YEAR in (
+  '201415',
+  '201516',
+  '201617',
+  '201718',
+  '201819',
+  '201920',
+  '202021',
+ '202122E4',
+  '202223E4',
+ '202324E4') ")
+
+nda_data <- dbGetQuery(con, nda_qry)
+
+nda_data_clean <- nda_data %>%
+  mutate( AUDIT_YEAR = paste0(substring(AUDIT_YEAR,1,4),"20",substring(AUDIT_YEAR,5,6)),
+  eth_grp = case_when(
+    DERIVED_CLEAN_ETHNICITY %in% c('A', 'B', 'C') ~ 'White',
+    DERIVED_CLEAN_ETHNICITY %in% c('D', 'E', 'F', 'G')  ~ 'Mixed',
+    DERIVED_CLEAN_ETHNICITY %in% c('H', 'J', 'K', 'L') ~ 'Asian',
+    DERIVED_CLEAN_ETHNICITY %in% c('M', 'N', 'P') ~ 'Black',
+    DERIVED_CLEAN_ETHNICITY %in% c('R', 'S', 'S2', 'S3') ~ 'Other',
+    DERIVED_CLEAN_ETHNICITY %in% c('Z') ~ 'Not Known',
+    .default = 'NA'),
+    DERIVED_CLEAN_DIABETES_TYPE = as.numeric(DERIVED_CLEAN_DIABETES_TYPE), 
+    imd_grp = case_when(
+      IMD_QUINTILE == '1' ~ 'IMD1',
+      IMD_QUINTILE == '2' ~ 'IMD2',
+      IMD_QUINTILE == '3' ~ 'IMD3',
+      IMD_QUINTILE == '4' ~ 'IMD4',
+      IMD_QUINTILE == '5' ~ 'IMD5')) 
+
+
+```
