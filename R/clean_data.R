@@ -10,8 +10,8 @@ data <- raw %>%
   mutate(
     age_band = cut(
       AGE,
-      breaks = c(-Inf, 39, 49, 59, 69, 79, Inf),
-      labels = c("< 40", "40-49", "50-59", "60-69", "70-79", "≥ 80"),
+      breaks = c(-Inf, 17, 39, 49, 59, 69, 79, Inf),
+      labels = c("< 18", "18 - 40", "40-49", "50-59", "60-69", "70-79", "≥ 80"),
       RIGHT = TRUE # Include the upper bound in each interval
     )
   ) %>% 
@@ -73,6 +73,8 @@ data <- raw %>%
   mutate(
     CLEAN_BMI_VALUE = as.numeric(CLEAN_BMI_VALUE),
     BMI_category = case_when(
+      # need to include ethnicity criteria as South Asian BMI is 27.5 
+      # https://www.researchgate.net/figure/Classification-of-weight-according-to-BMI-for-Caucasian-South-Asian-and-Chinese_tbl1_340960106
       CLEAN_BMI_VALUE < 18.5                            ~ "Underweight",
       CLEAN_BMI_VALUE >= 18.5 & CLEAN_BMI_VALUE <= 24.9 ~ "Normal weight",
       CLEAN_BMI_VALUE >= 25 & CLEAN_BMI_VALUE <= 29.9   ~ "Overweight",
