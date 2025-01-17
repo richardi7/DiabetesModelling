@@ -72,6 +72,8 @@ library(DT)
 
 ```
 
+# Dataset
+
 ```{r}
 #| label: load-data
 #| output: false
@@ -79,6 +81,13 @@ library(DT)
 # Read the RDS data
 data <- readRDS("../data/nda_clean.rds")
 ```
+
+The National Diabetes Audit (NDA) [dataset](https://digital.nhs.uk/data-and-information/clinical-audits-and-registries/national-diabetes-audit) contains data on care processes and treatment targets for diabetes care, enabling us to measure the effectiveness of diabetes healthcare against NICE Clinical Guidelines and NICE Quality Standards in England and Wales. 
+
+This report examines the quality of the NDA dataset, focusing specifically on the distribution of missing values within it. This represents the first step in understanding the dataset before utilizing it for any modelling work. 
+
+The dataset provides a comprehensive audit of diabetes care and outcomes for patients in the Birmingham and Solihull, extracted for the 2023-24 financial year (2023-24 Q4). 
+
 
 
 ```{r}
@@ -139,6 +148,9 @@ create_lollipop_plot <- function(data, x_var, y_var, plot_title, xaxis_title, ya
 ```
 # Missing Values
 ## Missingness in Cases
+
+This plot shows the number and percentage of missing values for each case. 
+
 
 :::: panel-tabset
 
@@ -229,7 +241,21 @@ datatable(missing_dt, extensions = "Buttons",
 
 ::::
 
+::: {.callout-tip}
+
+# Summaries
+
+- There are **48,065 cases or rows (42.49%)** with no missing values.
+
+- There are **27,286 cases (13.22%)** with exactly 2 missing values.
+
+- The number of cases with missing values progressively decreases as the number of missing values increases.
+
+:::
+
 ## Missingness in Variables
+
+This plot shows the number and percentage of missing values for each variable in the dataset. 
 
 :::: panel-tabset
 
@@ -305,8 +331,26 @@ datatable(missing_dt, extensions = "Buttons",
 
 ::::
 
+::: {.callout-tip}
+
+# Summaries
+
+- The variables with the highest number of missing values include `clean_cholesterol_value`, the corresponding `cholesterol_category`, and `statin_flag`, each having close to 40,000 missing values. These missing values may not necessary due to data quality issues but rather the absence of the respective treatment care.
+
+- Variables like `bmi_category`, `clean_bmi_value`, and `clean_diastolic_value` also exhibit a substantial number of missing values, but fewer than the top three.
+
+- Variables such as `clean_systolic_value`, `clean_mmol_hba1c_value`, and the corresponding `hba1c_mmol_category` show moderate levels of missingness.
+
+- Several demographic and clinical variables, including `ethnicity`, `smoking_category`, `diabetes_duration_category`, and others, have significantly fewer missing values.
+
+- Variables like `age`, `gender`, and `treatment targets_achieved` have little to no missingness. 
+
+
+:::
 
 ## Missingness in Variables Grouped by Diabetes Type
+
+This plot shows the distribution of missing values across variables grouped by diabetes type (`Type 1`, `Type 2`, and `Other`).
 
 :::: panel-tabset
 
@@ -489,7 +533,23 @@ datatable(missing_dt, extensions = "Buttons",
 
 ::::
 
+::: {.callout-tip}
+
+# Summaries
+
+
+- Core demographic variables such as `age`, `gender`, and `imd_quintile` have no missingness across all diabetes types.
+
+- High missingness is observed primarily in clinical variables related to cholesterol, BMI, statin, and systolic/diastolic values.
+
+- **Type 2 diabetes** has the highest number of records but relatively lower percentages of missingness compared to `Other` and `Type 1`.
+
+
+:::
+
 ## Missingness in Variables Across Patient IDs
+
+This plot visualises the missing data across patient records for all variables in the dataset.
 
 :::: panel-tabset
 
@@ -545,7 +605,26 @@ datatable(missing_dt, extensions = "Buttons",
 ```
 ::::
 
+
+::: {.callout-tip}
+
+# Summaries
+
+
+- Missingness appears non-random for certain variables (e.g., clusters of missing values for clinical variables such as cholesterol-related ones). This is because some variables, such as `cholesterol_category` and `hba1c_mmol_category`, are derived variables; therefore, the distribution of missingness aligns with that of the primary variables from which they are created. However, other variables suggest that specific subgroups or conditions may systematically lack data.
+
+- Variables such as `statin_flag`, `clean_cholesterol_value`, `cholesterol_category`, and `bmi_category` show frequent and widespread 
+
+
+:::
+
 ## Intersections of Missingness Amongst Variables
+
+This is an UpSet plot, which visualises the patterns of missingness, specically the combinations of missingness among variables. 
+
+The horizontal bars on the left show the number of missing values in each variable. In contrast, the vertical bars represent the size of the missing values shared among variables.
+
+The dots and connecting lines beneath the vertical bars indicate which variables' missing values overlap.
 
 :::: panel-tabset
 
@@ -558,3 +637,18 @@ gg_miss_upset(data)
 ```
 
 ::::
+
+::: {.callout-tip}
+
+# Summaries
+
+- The horizontal bars on the left show that the variable `clean_cholesterol_value` has the largest number of missing values across all variables. Its derived variable, `cholesterol_category`, follows the same pattern of missingness. This is followed by other variables such as `statin_flag`, `clean_bmi_value`, and the corresponding derived variable, `bmi_category`.
+
+- The largest vertical bar (~22,545 cases) represents the intersection of missing values shared between `clean_cholesterol_value` and its derived variable, `cholesterol_category`.
+
+- There are 4,826 cases where all 5 variables share missing values.
+
+- Intersections involving multiple variables have much smaller sizes compared to single-variable missing values. 
+
+
+:::

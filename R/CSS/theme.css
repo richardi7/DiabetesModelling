@@ -1,210 +1,217 @@
-/* General Styling for the Body */
-  body {
+/* ======================== */
+/* General Body Styling     */
+/* ======================== */
+body {
     -moz-osx-font-smoothing: grayscale; /* Smooth font rendering for macOS */
-      -webkit-font-smoothing: antialiased; /* Smooth font rendering for WebKit browsers */
-  }
-
-
-
-
-/* Import Fonts */
-  @import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
-.opensans {
-  font-family: "Open Sans", sans-serif; /* Apply Open Sans font */
+    -webkit-font-smoothing: antialiased; /* Smooth font rendering for WebKit browsers */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensures consistent box sizing */
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
-/* Title Banner and Metadata */
+.opensans {
+    font-family: "Open Sans", sans-serif; /* Apply Open Sans font */
+}
+
+/* ======================== */
+/* Title Banner Styling     */
+/* ======================== */
 .quarto-title-banner {
-    padding-top: 30px;
-    padding-right: 0px;
-    padding-bottom: 40px;
-    padding-left: 0px;
-    margin-bottom: 0px;
     display: grid; /* Use grid layout to align logo and title */
     align-items: center; /* Vertically align the content */
     position: relative;
-
+    padding: 30px 0 40px 0;
+    margin: 0;
+    background-color: #005EB8; /* NHS blue background */
 }
 
-
-
-/* Logo Styling for Title Banner */
 .quarto-title-banner::before {
     content: ''; /* Insert pseudo-element for the logo */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 16'%3E%3Cpath fill='%23fff' d='M0 0h40v16H0z'%3E%3C/path%3E%3Cpath fill='%23005eb8' d='M3.9 1.5h4.4l2.6 9h.1l1.8-9h3.3l-2.8 13H9l-2.7-9h-.1l-1.8 9H1.1M17.3 1.5h3.6l-1 4.9h4L25 1.5h3.5l-2.7 13h-3.5l1.1-5.6h-4.1l-1.2 5.6h-3.4M37.7 4.4c-.7-.3-1.6-.6-2.9-.6-1.4 0-2.5.2-2.5 1.3 0 1.8 5.1 1.2 5.1 5.1 0 3.6-3.3 4.5-6.4 4.5-1.3 0-2.9-.3-4-.7l.8-2.7c.7.4 2.1.7 3.2.7s2.8-.2 2.8-1.5c0-2.1-5.1-1.3-5.1-5 0-3.4 2.9-4.4 5.8-4.4 1.6 0 3.1.2 4 .6'%3E%3C/path%3E%3C/svg%3E");
-    background-color: #005EB8; /* NHS blue background */
-    background-size: 90px; /* Match logo size with .quarto-title */
+    background-size: 90px;
     background-repeat: no-repeat;
-    margin-left: 50px;
-    margin-top: 4px;
-    margin-bottom: 2px;
-    width: 90px; /* Explicit width to match .quarto-title logo */
-    height: 40px; /* Explicit height to match .quarto-title logo */
-    display: block; /* Ensure the logo is treated as a block */
-}
-
-.quarto-title.column-body .title {
-    text-align: left; /* Align text to the left */
-    margin-left: 0; /* Remove any left margin */
-    padding-left: 0; /* Remove any left padding */
-}
-
-
-
-
-
-.quarto-title-meta {
-  padding: 0; /* Remove padding */
-    margin-bottom: 0; /* Remove margin */
-    background-color: #fff; /* Set white background */
-}
-
-#title-block-header.quarto-title-block {
-padding: 0 0 10px 0; /* Add bottom padding */
-  margin-bottom: 0; /* Remove margin */
-  background-color: #fff; /* Set white background */
-  }
-
-.quarto-title {
-    background-color: #005EB8; /* NHS blue */
-    display: block; /* Ensure block-level layout */
-    padding: 0;
-}
-
-#quarto-content {
-    padding: 20px;
-}
-
-.quarto-title p.subtitle {
-  margin-top: 10px; /* Add top margin */
-    font-size: 22px; /* Set subtitle font size */
-    font-weight: 300; /* Set lighter font weight */
+    background-color: #005EB8;
+    width: 90px;
+    height: 40px;
+    margin: 4px 0 2px 50px;
+    display: block;
 }
 
 .quarto-title h1.title {
-  color: #fff; /* White text color */
-    font-size: 30px; /* Set title font size */
-      padding: 0; /* Remove padding */
-    margin-bottom: 0; /* Remove margin */
-    text-align: center; /* Center-align the title */
-
-    
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
-/* Navigation and Tab Styling */
-  .panel-tabset .nav-item {
-    font-size: 16px; /* Font size for navigation items in tab panels */
-  }
-
-.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-  color: #495057; /* Text color for active tab */
-    background-color: #fff; /* White background for active tab */
-    border-color: #dee2e6 #dee2e6 #fff; /* Border colors for active tab */
+.quarto-title p.subtitle {
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: 300;
 }
+
+.quarto-title.column-body .title {
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.quarto-title-meta {
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+#title-block-header.quarto-title-block {
+    background-color: #fff;
+    padding: 0 0 10px 0;
+    margin-bottom: 0;
+}
+
+/* ======================== */
+/* Content Styling          */
+/* ======================== */
+/*#quarto-content {
+    padding: 20px;
+}*/
 
 .tab-content {
-  padding: 1em 0; /* Add vertical padding */
-    background-color: #fff; /* White background for tab content */
+    padding: 1em 0;
+    background-color: #fff;
 }
 
-/* Button Styling */
-  .btn-action-primary {
-    color: white; /* White text */
-      background-color: #005eb8 !important; /* NHS blue background */
-  }
-
-.btn-action-primary:hover {
-  background-color: #ffeb3b !important; /* Yellow background on hover */
-    color: #000 !important; /* Black text on hover */
+/* ======================== */
+/* Navigation and Tabs      */
+/* ======================== */
+.panel-tabset .nav-item {
+    font-size: 16px;
 }
 
-.btn-action {
-  min-width: 165px; /* Minimum button width */
-    border-radius: 30px; /* Rounded corners */
-    border: none; /* Remove border */
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
 }
 
-/* DataTable Buttons */
-  .dt-buttons {
-    position: absolute; /* Position buttons absolutely */
-      bottom: 0; /* Align buttons to the bottom */
-      left: 0; /* Align buttons to the left */
-      right: 0; /* Stretch buttons to the right */
-      text-align: center; /* Center-align buttons */
-      padding-bottom: 0.3em; /* Add bottom padding */
-  }
-
-/* Callouts and Captions */
-  .figure-caption {
-    color: #373a3c; /* Dark gray text color */
-      font-size: 16px; /* Font size for captions */
-  }
-
-.cell-output-display {
-  height: 600px;
-  overflow: hidden; /* Hide anything that overflows the container */
-  display: flex;
-  justify-content: center; /* Center the plot horizontally */
-  align-items: center;    /* Center the plot vertically */
-  padding: 10px;
+/* ======================== */
+/* Callouts and Captions    */
+/* ======================== */
+.figure-caption {
+    color: #373a3c;
+    font-size: 16px;
 }
 
 .callout {
-  background-color: white; /* White background */
-    margin: 0.5rem 0; /* Vertical margins */
-    border-radius: .25rem; /* Rounded corners */
+    background-color: white;
+    margin: 0.5rem 0;
+    border-radius: 0.25rem;
 }
 
 .callout-note.callout {
-  border-left-color: #005EB8; /* NHS blue border on the left */
-    background-color: white; /* White background */
+    border-left-color: #005EB8;
 }
 
 .callout.callout-style-simple {
-  padding: .01em .7em; /* Compact padding */
+    padding: 0.01em 0.7em;
 }
 
 .callout-caption-container {
-  color: #005EB8; /* NHS blue text color */
+    color: #005EB8;
 }
 
-/* Typography and Section Titles */
-  .title {
-    font-size: 28px; /* Title font size */
-      font-weight: lighter; /* Lighter font weight */
-  }
-
+/* ======================== */
+/* Typography               */
+/* ======================== */
 h1, .h1 {
-  font-size: 30px; /* Font size for H1 headers */
-    font-weight: 600; /* Semi-bold font weight */
+    font-size: 30px;
+    font-weight: 600;
 }
 
 h2, .h2 {
-  font-size: 20px; /* Font size for H2 headers */
-    font-weight: 600; /* Semi-bold font weight */
+    font-size: 20px;
+    font-weight: 600;
 }
 
 h3, .h3 {
-  font-size: 18px; /* Font size for H3 headers */
-    font-weight: 600; /* Semi-bold font weight */
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .header-section-number {
-  color: #373a3c; /* Dark gray text color for section numbers */
+    color: #373a3c;
 }
 
+.title {
+    font-size: 28px;
+    font-weight: lighter;
+}
+
+/* ======================== */
+/* Buttons                  */
+/* ======================== */
+.btn-action-primary {
+    color: white;
+    background-color: #005eb8 !important;
+}
+
+.btn-action-primary:hover {
+    background-color: #ffeb3b !important;
+    color: #000 !important;
+}
+
+.btn-action {
+    min-width: 165px;
+    border-radius: 30px;
+    border: none;
+}
+
+/* ======================== */
+/* Data Table Buttons       */
+/* ======================== */
+.dt-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding-bottom: 0.3em;
+}
+
+/* ======================== */
+/* Footer                   */
+/* ======================== */
+
+
+/* Footer Styling */
+footer {
+    width: 100%; /* Ensure the footer spans full width */
+    margin: 0; /* Remove margins */
+    padding: 20px 0; /* Add vertical padding */
+    background-color: #FFFFFF; /* White footer background */
+    color: black; /* Text color for footer content */
+    text-align: center;
+    box-sizing: border-box;
+    position: relative; /* Ensure proper stacking context */
+}
+
+
+/* ======================== */
+/* Responsive Layout        */
+/* ======================== */
 @media (min-width: 992px) {
     body:not(.floating):not(.docked) .page-columns.toc-left {
         grid-template-columns: 
             [screen-start] 1.4em 
-            [screen-start-inset] 4fr  /* Increase width for TOC column */
+            [screen-start-inset] 4fr
             [page-start] 30px 
-            [page-start-inset] minmax(0px, 220px) /* Slightly wider TOC column */
+            [page-start-inset] minmax(0px, 220px)
             [body-start-outset] 35px 
             [body-start] 2em 
-            [body-content-start] minmax(500px, calc(1000px - 3em)) 
+            [body-content-start] minmax(500px, calc(1000px - 3em))
             [body-content-end] 1.5em 
             [body-end] 50px 
             [body-end-outset] minmax(0px, 200px) 
@@ -214,21 +221,14 @@ h3, .h3 {
     }
 }
 
-
 #quarto-sidebar-toc-left {
-    margin-bottom: 0px;  /* No space below */
-    margin-top: 100px;   /* Pushes TOC down */
-    margin-left: 0px;  /* Moves TOC left significantly (use negative for left shift) */
+    margin-top: 100px;
+    margin-left: 0;
     margin-right: 50px;
-
+    margin-bottom: 0;
 }
 
-/* Style the TOC header */
 #toc-title {
     font-size: 18px;
     margin-bottom: 10px;
 }
-
-
-
-
